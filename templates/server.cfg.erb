@@ -24,10 +24,12 @@ plugin.stomp.pool.size = <%= stomp_pool_size %>
 <% configs.sort.each do |key,value| -%>
 plugin.stomp.pool.<%= key -%> = <%= value %>
 <% end -%>
+<% end -%>
 <% else -%>
 <% stomp_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
 plugin.stomp.<%= key -%> = <%= value %>
+<% end -%>
 <% end -%>
 <% end -%>
 
