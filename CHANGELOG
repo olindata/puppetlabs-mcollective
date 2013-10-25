@@ -1,54 +1,48 @@
-2011-08-17 Puppet Labs <support@puppetlabs.com> - 0.2.0
-* Update module for use with Puppet Enterprise 1.2
+2013-10-21 Release 1.1.1
 
-2011-06-20 Jeff McCune <jeff@puppetlabs.com> - 0.1.8
-* Add anchors to fully contain the mcollective module for the end user
+Summary:
 
-2011-06-11 Jeff McCune <jeff@puppetlabs.com> - 0.1.7
-* Change default registration plugin to Agentlist from Meta
+This is a bugfix release, primarily to remove metadata.json, as it seems to
+cause errors for some users.  Also exclude last_run from the facts, and grant
+rabbitmq's admin user configure permissions.
 
-2011-06-01 Jeff McCune <jeff@puppetlabs.com> - 0.1.6
-* Fix config files being managed before packages class ordering problem
+Fixes:
+- Remove metadata.json
+- Grant the rabbitmq admin user configure permissions.
+- Add last_run to the list of dynamic facts that are filtered out.
 
-2011-06-01 Jeff McCune <jeff@puppetlabs.com> - 0.1.5
-* Add better test examples and only install server by default
+2013-10-11 Release 1.1.0
 
-2011-05-31 Jeff McCune <jeff@puppetlabs.com> - 0.1.4
-* Add debian and ubuntu support
+Summary:
 
-2011-05-31 Jeff McCune <jeff@puppetlabs.com> - 0.1.3
-* Add nrpe agent to the default set
+This release adds `delete_guest_user` for RabbitMQ so that you don't have an
+admin guest user left enabled.  It also adds `middleware_admin_user` and
+`middleware_admin_password` so that you can control the user that's created in
+the middleware appropriately.  The README has been updated with further
+information.
 
-2011-05-30 Jeff McCune <jeff@puppetlabs.com> - 0.1.2
-* Manage the package before the configuration
+Features:
+- Add $delete_guest_user functionality.
+- Add middleware_admin_user and middleware_admin_password parameters.
+- Don't supply a client.cfg when securityprovider is 'ssl'
 
-2011-05-29 Jeff McCune <jeff@puppetlabs.com> - 0.1.1
-* Make the provider and psk a top level class param
+Fixes:
+- Use hash to build anonymous hash (in order to not require future parser)
 
-2011-05-28 Jeff McCune <jeff@puppetlabs.com> - 0.1.0
-* Merge Gary and Cody's work
+2013-10-03 Release 1.0.1
 
-2011-05-27 Jeff McCune <jeff@puppetlabs.com> - 0.0.9
-* Enable registration by default
+Summary:
 
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.8
-* Fix nrpe.d path with MCollective
+Bugfixes.
 
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.7
-* Add nrpe agent
+Fixes:
+- Stop puppet internals leaking into facts.yaml.
+- Style fixes.
+- Add plugin example to README.
+- Update .travis.yml to test appropriately.
 
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.6
-* Remove test agent as per RIP's comment in IRC
 
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.5
-* Add puppet agents (sudo mco puppetd status)
+2013-09-27 Release 1.0.0
 
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.4
-* Add facter facts plugin
-
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.3
-* Fix configuration file for mcollective 1.2.0
-* Add default plugin management
-
-2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.2
-* Initial release with package, file and service management
+Summary:
+The initial stable release of the mcollective module.
