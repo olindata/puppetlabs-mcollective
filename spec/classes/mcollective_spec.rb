@@ -40,6 +40,23 @@ describe 'mcollective' do
       end
     end
 
+    describe '#ruby_stomp_ensure' do
+      let(:facts) { { :osfamily => 'Debian' } }
+      it 'should default to installed' do
+        should contain_package('ruby-stomp').with_ensure('installed')
+      end
+      
+      context 'latest' do
+        let(:params) { { :ruby_stomp_ensure => 'latest' } }
+        it { should contain_package('ruby-stomp').with_ensure('latest') }
+      end
+
+      context '1.2.10-1puppetlabs1' do
+        let(:params) { { :ruby_stomp_ensure => '1.2.10-1puppetlabs1' } }
+        it { should contain_package('ruby-stomp').with_ensure('1.2.10-1puppetlabs1') }
+      end
+    end
+
     describe '#main_collective' do
       context 'default' do
         it { should contain_mcollective__common__setting('main_collective').with_value('mcollective') }
@@ -220,6 +237,7 @@ describe 'mcollective' do
             let(:common_params) { { :server => true, :middleware_hosts => %w{ foo }, :middleware_ssl => true } }
             let(:params) { common_params }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
+            it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
             describe '#ssl_ca_cert' do
               context 'set' do
@@ -239,6 +257,13 @@ describe 'mcollective' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_server_private => 'puppet:///modules/foo/server_private.pem' }) }
                 it { should contain_file('/etc/mcollective/server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
+              end
+            end
+
+            describe '#ssl_server_fallback' do
+              context 'set' do
+                let(:params) { common_params.merge({ :middleware_ssl_fallback => true }) }
+                it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
               end
             end
           end
@@ -758,6 +783,14 @@ describe 'mcollective' do
           context 'true' do
             let(:params) { { :server => false, :client => true, :middleware_hosts => %w{ foo }, :middleware_ssl => true } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
+            it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
+
+            describe '#ssl_server_fallback' do
+              context 'set' do
+                let(:params) { { :server => false, :client => true, :middleware_hosts => %w{ foo }, :middleware_ssl => true, :middleware_ssl_fallback => true } }
+                it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
+              end
+            end
           end
         end
       end
